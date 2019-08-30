@@ -1,0 +1,9 @@
+[pycodestyle]
+ignore = E101,E402,E501,E731,W293,W503,W504,W505,W605
+
+[flake8]
+ignore = E101,E402,E501,E731,W293,W503,W504,W505,W605
+max-line-length = 100
+inline-quotes = single
+multiline-quotes = '''
+docstring-quotes = """
