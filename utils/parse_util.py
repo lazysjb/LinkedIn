@@ -47,6 +47,22 @@ class HTMLFileReader:
         with open(self.file_path, 'r') as f:
             self.raw_html_text = f.read()
 
+    @classmethod
+    def load_from_html_text(cls, html_text):
+        file_reader = cls(None)
+        file_reader.raw_html_text = html_text
+        return file_reader
+
+    @classmethod
+    def load_from_zipfile_html_text(cls, zipfile_html_text):
+        # This is a nasty hack, but when I read from zipfile, I get something different
+        # from reading from unzipped file. Hence this nasty transformation
+        raw_html_text = zipfile_html_text.decode('utf-8').replace('\r', '')
+
+        file_reader = cls(None)
+        file_reader.raw_html_text = raw_html_text
+        return file_reader
+
     def get_raw_html_text(self):
         return self.raw_html_text
 
@@ -124,7 +140,7 @@ class LinkedInProfileParser(HTMLParser):
         overview_node = _soup_find_single_child_check(self.root,
                                                       'dl',
                                                       {'id': 'overview'},
-                                                      allow_none=False)
+                                                      allow_none=True)
         return overview_node
 
     def _extract_experience_section_node(self):
@@ -229,11 +245,13 @@ class HeaderSectionParser(HTMLParser):
         self.location = location
 
     def parse_industry_info(self):
-        industry = _soup_find_single_child_check(self.root,
-                                                 'dd',
-                                                 {'class': 'industry'},
-                                                 allow_none=False).get_text()
-        self.industry = industry
+        industry_node = _soup_find_single_child_check(self.root,
+                                                      'dd',
+                                                      {'class': 'industry'},
+                                                      allow_none=True)
+        if industry_node is not None:
+            self.industry = industry_node.get_text()
+        return
 
     def parse(self):
         self.parse_name_info()
@@ -314,24 +332,31 @@ class OverviewSectionParser(HTMLParser):
         conn_node = _soup_find_single_child_check(self.root,
                                                   'dd',
                                                   {'class': 'overview-connections'},
-                                                  allow_none=False)
-        num_connections = conn_node.find('strong').get_text()
-        # num_connections is a string since there are cases
-        # such as "500+" connections
-        # num_connections = int(num_connections)
+                                                  allow_none=True)
+
+        if conn_node is None:
+            num_connections = None
+        else:
+            num_connections = conn_node.find('strong').get_text()
+            # num_connections is a string since there are cases
+            # such as "500+" connections
+            # num_connections = int(num_connections)
         self.connections = num_connections
 
     def parse_recommendations_info(self):
-        recommendation_title_node = self.root.find(
-            text=re.compile('Recommendations'))
+        # recommendation_title_node = self.root.find(
+        #     text=re.compile('Recommendations'))
+        recommendation_title_node = self.root.find('dt',
+                                                   text='Recommendations')
 
         if recommendation_title_node is None:
             return None
 
-        num_recommendations = recommendation_title_node.find_next().find('strong').get_text()
-        num_recommendations = int(num_recommendations)
-        self.recommendations = num_recommendations
-        return
+        else:
+            num_recommendations = recommendation_title_node.find_next().find('strong').get_text()
+            num_recommendations = int(num_recommendations)
+            self.recommendations = num_recommendations
+            return
 
     def parse_websites_info(self):
         website_node = _soup_find_single_child_check(self.root,
@@ -350,34 +375,67 @@ class OverviewSectionParser(HTMLParser):
         """In the form of xxx role at yyy"""
         experience_children = list(experience_triplet_node.children)
 
-        if len(experience_children) != 3:
-            raise ValueError('Length of experience_children is {}, expected 3'.format(
+        if len(experience_children) not in (1, 2, 3, 4):
+            raise ValueError('Length of experience_children is {}, expected 1, 2, 3 or 4'.format(
                 len(experience_children)))
 
-        role = experience_children[0]
-        if not isinstance(role, NavigableString):
-            raise TypeError('Type of role is unexpected')
-        role = role.string
+        if len(experience_children) == 1:
+            at = experience_children[0]
+            if isinstance(at, Tag):
+                at = at.get_text()
+            elif isinstance(at, NavigableString):
+                at = at.string
+            else:
+                raise TypeError('Type of at is unexpected')
 
-        assert experience_children[1].get_text() == 'at'
+            return {'role': None, 'at': at, 'extra': None}
+        elif len(experience_children) == 2:
+            at = experience_children[1]
+            if isinstance(at, Tag):
+                at = at.get_text()
+            elif isinstance(at, NavigableString):
+                at = at.string
+            else:
+                raise TypeError('Type of at is unexpected')
 
-        at = experience_children[2]
-        if isinstance(at, Tag):
-            at = at.get_text()
-        elif isinstance(at, NavigableString):
-            at = at.string
+            return {'role': None, 'at': at, 'extra': None}
         else:
-            raise TypeError('Type of at is unexpected')
+            role = experience_children[0]
+            if not isinstance(role, NavigableString):
+                raise TypeError('Type of role is unexpected')
+            role = role.string
 
-        return {'role': role, 'at': at}
+            assert experience_children[1].get_text() == 'at'
+
+            at = experience_children[2]
+            if isinstance(at, Tag):
+                at = at.get_text()
+            elif isinstance(at, NavigableString):
+                at = at.string
+            else:
+                raise TypeError('Type of at is unexpected')
+
+            if len(experience_children) == 3:
+                extra = None
+            else:
+                extra = experience_children[3]
+                if isinstance(extra, Tag):
+                    extra = extra.get_text()
+                elif isinstance(extra, NavigableString):
+                    extra = extra.string
+                else:
+                    raise TypeError('Type of extra is unexpected')
+
+            return {'role': role, 'at': at, 'extra': extra}
 
     def parse(self):
-        self.parse_current_info()
-        self.parse_past_info()
-        self.parse_education_info()
-        self.parse_connections_info()
-        self.parse_recommendations_info()
-        self.parse_websites_info()
+        if self.root is not None:
+            self.parse_current_info()
+            self.parse_past_info()
+            self.parse_education_info()
+            self.parse_connections_info()
+            self.parse_recommendations_info()
+            self.parse_websites_info()
 
     def get_formatted_content(self):
         content = {
@@ -399,7 +457,7 @@ class SummarySectionParser(HTMLParser):
     def parse(self):
         if self.root is None:
             return
-        self.text = self.root.get_text()
+        self.text = self.root.get_text('\n')
 
     def get_formatted_content(self):
         return self.text
@@ -413,7 +471,7 @@ class SpecialtySectionParser(HTMLParser):
     def parse(self):
         if self.root is None:
             return
-        self.text = self.root.get_text()
+        self.text = self.root.get_text('\n')
 
     def get_formatted_content(self):
         return self.text
@@ -451,6 +509,7 @@ class ExperienceItemParser(HTMLParser):
         self.root = root
         self.title = None
         self.org_summary = None
+        self.company_profile = None
         self.org_detail = None
         self.period = None
         self.location = None
@@ -460,15 +519,27 @@ class ExperienceItemParser(HTMLParser):
         title_node = _soup_find_single_child_check(self.root,
                                                    'span',
                                                    {'class': 'title'},
-                                                   allow_none=False)
-        self.title = title_node.get_text()
+                                                   allow_none=True)
+        if title_node is not None:
+            self.title = title_node.get_text()
 
     def parse_org_summary_info(self):
         org_summary_node = _soup_find_single_child_check(self.root,
                                                          'span',
                                                          {'class': 'org summary'},
-                                                         allow_none=False)
-        self.org_summary = org_summary_node.get_text()
+                                                         allow_none=True)
+        if org_summary_node is not None:
+            self.org_summary = org_summary_node.get_text()
+        return
+
+    def parse_company_profile_info(self):
+        company_profile_node = _soup_find_single_child_check(self.root,
+                                                             'a',
+                                                             {'class': 'company-profile-public'},
+                                                             allow_none=True)
+        if company_profile_node is not None:
+            self.company_profile = company_profile_node.attrs.get('href', None)
+        return
 
     def parse_org_detail_info(self):
         org_detail_node = _soup_find_single_child_check(self.root,
@@ -493,8 +564,8 @@ class ExperienceItemParser(HTMLParser):
 
         if len(date_nodes):
             # sanity check
-            date_nodes[0].get_attribute_list('class')[0] == 'dtstart'
-            date_nodes[1].get_attribute_list('class')[0] == 'dtend'
+            assert date_nodes[0].get_attribute_list('class')[0] == 'dtstart'
+            assert date_nodes[1].get_attribute_list('class')[0] in ('dtstamp', 'dtend')
 
             date_start, date_end = [x.get_text() for x in date_nodes]
             duration = period_node.find('span', {'class': 'duration'}).get_text()
@@ -538,6 +609,7 @@ class ExperienceItemParser(HTMLParser):
     def parse(self):
         self.parse_title_info()
         self.parse_org_summary_info()
+        self.parse_company_profile_info()
         self.parse_org_detail_info()
         self.parse_period_info()
         self.parse_location_info()
@@ -547,6 +619,7 @@ class ExperienceItemParser(HTMLParser):
         content = {
             'title': self.title,
             'org_summary': self.org_summary,
+            'company_profile': self.company_profile,
             'org_detail': self.org_detail,
             'period': self.period,
             'location': self.location,
@@ -649,14 +722,38 @@ class EducationItemParser(HTMLParser):
         }
         self.period = period
 
+    def _parse_education_detail_node(self, node):
+        em_node = _soup_find_single_child_check(node,
+                                                'em',
+                                                {},
+                                                allow_none=True)
+
+        if em_node is None:
+            parsed = {'text': node.get_text('\n')}
+        else:
+            tag = em_node.get_text().replace(':', '').strip()
+            node_children = list(node.children)
+            if len(node_children) != 2:
+                raise ValueError('Expected 2 elements for children of {}'.format(node))
+            node_val = node_children[1]
+
+            parsed = {tag: str(node_val)}
+        return parsed
+
     def parse_education_detail_info(self):
         # TODO(SJ): Add detail activity attribute to accomodate 15.html
-        education_detail_node = _soup_find_single_child_check(self.root,
-                                                              'p',
-                                                              {'class': 'desc details-education',
-                                                               'name': None},
-                                                              allow_none=False)
-        self.education_detail = education_detail_node.get_text('\n')
+        # education_detail_node = _soup_find_single_child_check(self.root,
+        #                                                       'p',
+        #                                                       {'class': 'desc details-education',
+        #                                                        'name': None},
+        #                                                       allow_none=False)
+        # self.education_detail = education_detail_node.get_text('\n')
+        education_detail_nodes = self.root.find_all('p', {'class': 'desc details-education'})
+        parsed_info_dict = {}
+        for education_detail_node in education_detail_nodes:
+            parsed_info_dict.update(self._parse_education_detail_node(education_detail_node))
+
+        self.education_detail = parsed_info_dict
 
     def parse(self):
         self.parse_org_name_info()
