@@ -1,1 +1,3 @@
 - Folder 1000 overlaps (First 1000 / 1000 - 1500)
+    - I deleted 1000 folder from 1000_1500 parent dir
+
