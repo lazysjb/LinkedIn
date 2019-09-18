@@ -1,0 +1,4 @@
+,num companies,avg employees,median employees,avg word length
+Filter by 100 char length,1995,3312.12,1840,107.82
+Filter by 50 word count,1428,3098.78,1802,133.8
+Filter by 100 word count,695,2713.69,1731,185.55

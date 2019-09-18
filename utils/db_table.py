@@ -1,11 +1,12 @@
 from sqlalchemy import (
-    BOOLEAN, Column, MetaData, SMALLINT, String, Table
+    BOOLEAN, Column, MetaData, INTEGER, SMALLINT, String, Table
 )
 
 from db_config import (
     LOCATION_COUNTRY_TABLE,
     PERSON_EXPERIENCE_TABLE, PERSON_META_TABLE,
-    PERSON_SPECIALTY_TABLE, PERSON_SUMMARY_TABLE, SCHEMA
+    PERSON_SPECIALTY_TABLE, PERSON_SUMMARY_TABLE, PERSON_SUMMARY_LENGTH_TABLE,
+    SCHEMA
 )
 from utils.db_util import create_postgres_engine
 
@@ -48,6 +49,15 @@ if not sql_engine.dialect.has_table(sql_engine, PERSON_SUMMARY_TABLE, schema=SCH
           metadata,
           Column('person_id', String, primary_key=True),
           Column('person_summary', String),
+          schema=SCHEMA)
+
+if not sql_engine.dialect.has_table(sql_engine, PERSON_SUMMARY_LENGTH_TABLE, schema=SCHEMA):
+    Table(PERSON_SUMMARY_LENGTH_TABLE,
+          metadata,
+          Column('person_id', String, primary_key=True),
+          Column('person_summary', String),
+          Column('word_length', INTEGER),
+          Column('char_length', INTEGER),
           schema=SCHEMA)
 
 if not sql_engine.dialect.has_table(sql_engine, PERSON_SPECIALTY_TABLE, schema=SCHEMA):

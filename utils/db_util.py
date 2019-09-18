@@ -4,8 +4,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 from db_config import (
-    PERSON_META_TABLE, PERSON_EXPERIENCE_TABLE,
-    PERSON_SPECIALTY_TABLE, PERSON_SUMMARY_TABLE, SCHEMA
+    SCHEMA
 )
 
 _DEFAULT_DB_NAME = 'postgres'
