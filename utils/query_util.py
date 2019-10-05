@@ -123,32 +123,59 @@ def query_organization_stats(conn,
     df = make_query(q, conn)
     return df
 
-#
-# """
-# SELECT *
-# FROM
-# 	(WITH count_distinct as
-# 		(SELECT org_profile_link
-# 		 FROM
-# 		 	(SELECT person_experience.person_id, org_profile_link
-# 			FROM linkedin.person_experience
-# 			JOIN
-# 				(SELECT person_id
-# 				FROM linkedin.person_meta meta
-# 				JOIN (
-# 					SELECT *
-# 					FROM linkedin.location_country
-# 					WHERE country IN ('US', 'Canada')
-# 				) q
-# 				ON
-# 					meta.header_location = q.header_location) us_canada_person
-#
-# 				ON us_canada_person.person_id = person_experience.person_id) qq
-#
-# 		 GROUP BY org_profile_link, person_id)
-# 	SELECT org_profile_link, count(org_profile_link) AS count_person
-# 	FROM count_distinct
-# 	GROUP BY org_profile_link) q
-# WHERE count_person >= 1000
-# ORDER BY count_person DESC
-# """
+
+def query_person_info_in_organization(conn, org_profile_link, min_word_length=50):
+    if min_word_length is None:
+        where_min_word_length_clause = ''
+    else:
+        where_min_word_length_clause = """
+            WHERE
+                word_length >= {}
+        """.format(min_word_length)
+
+    q = """
+        SELECT company_employee.org_profile_link, all_person_info.*
+        FROM
+            (SELECT person_id, org_profile_link
+            FROM linkedin.person_experience
+            WHERE org_profile_link = '{org_profile_link}'
+            GROUP BY person_id, org_profile_link) company_employee
+        
+        JOIN
+        
+            (SELECT meta.*, q.country, person_summary, word_length, char_length
+            FROM
+                linkedin.person_meta meta
+            JOIN (
+                SELECT *
+                FROM linkedin.location_country
+                WHERE country IN ('US', 'Canada')
+            ) q
+                ON meta.header_location = q.header_location
+        
+            JOIN linkedin.person_summary_length
+                ON person_summary_length.person_id = meta.person_id) all_person_info
+        
+            ON all_person_info.person_id = company_employee.person_id
+            
+        {where_min_word_length_clause}
+    """.format(org_profile_link=org_profile_link,
+               where_min_word_length_clause=where_min_word_length_clause)
+
+    df = make_query(q, conn)
+    return df
+
+
+def query_person_ids_in_organization(conn, org_profile_link, person_ids):
+    """Query professional experience for matching org / person pairs"""
+
+    q = """
+        SELECT *
+        FROM linkedin.person_experience
+        WHERE org_profile_link = '{org_profile_link}'
+        AND person_id IN {person_ids}
+    """.format(org_profile_link=org_profile_link,
+               person_ids=tuple(person_ids))
+
+    df = make_query(q, conn)
+    return df
