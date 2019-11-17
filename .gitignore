@@ -3,3 +3,6 @@
 **/.idea
 **/archive_folder
 **/__pycache__
+
+*testing_*
+*testing.py
