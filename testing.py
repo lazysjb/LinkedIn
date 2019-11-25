@@ -4,7 +4,7 @@ from utils.parse_util import HTMLFileReader, LinkedInProfileParser
 # import pandas as pd
 # import flatten_json
 
-HTML_FILE_PATH = './data/sample_html_profiles/16.html'
+HTML_FILE_PATH = './data/sample_html_profiles/1.html'
 
 
 html_reader = HTMLFileReader(HTML_FILE_PATH)

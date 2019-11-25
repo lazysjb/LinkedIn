@@ -11,7 +11,8 @@ def main(batch_dir):
     print('Saving parsed contents in {} to DB'.format(batch_dir))
     db_conn = create_postgres_engine()
     run_parsed_to_db(batch_dir,
-                     db_conn,)
+                     db_conn,
+                     run_education=True,)
 
 
 if __name__ == '__main__':

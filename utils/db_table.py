@@ -4,7 +4,7 @@ from sqlalchemy import (
 
 from db_config import (
     LOCATION_COUNTRY_TABLE,
-    PERSON_EXPERIENCE_TABLE, PERSON_META_TABLE,
+    PERSON_EDUCATION_TABLE, PERSON_EXPERIENCE_TABLE, PERSON_META_TABLE,
     PERSON_SPECIALTY_TABLE, PERSON_SUMMARY_TABLE, PERSON_SUMMARY_LENGTH_TABLE,
     SCHEMA
 )
@@ -29,6 +29,18 @@ if not sql_engine.dialect.has_table(sql_engine, PERSON_EXPERIENCE_TABLE, schema=
           Column('date_end', String),
           Column('duration', String),
           Column('is_current', BOOLEAN),
+          schema=SCHEMA)
+
+if not sql_engine.dialect.has_table(sql_engine, PERSON_EDUCATION_TABLE, schema=SCHEMA):
+    Table(PERSON_EDUCATION_TABLE,
+          metadata,
+          Column('person_id', String, primary_key=True),
+          Column('education_id', SMALLINT, primary_key=True),
+          Column('edu_org_name', String),
+          Column('degree', String),
+          Column('major', String),
+          Column('date_start', String),
+          Column('date_end', String),
           schema=SCHEMA)
 
 if not sql_engine.dialect.has_table(sql_engine, PERSON_META_TABLE, schema=SCHEMA):

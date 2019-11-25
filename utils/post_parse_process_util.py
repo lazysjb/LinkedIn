@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 from config import PARSED_CONTENT_ROOT_DIR
 from db_config import (
-    PERSON_META_TABLE, PERSON_EXPERIENCE_TABLE,
+    PERSON_META_TABLE, PERSON_EDUCATION_TABLE, PERSON_EXPERIENCE_TABLE,
     PERSON_SPECIALTY_TABLE, PERSON_SUMMARY_TABLE
 )
 from utils.db_util import write_to_db
@@ -135,10 +135,43 @@ def extract_person_experience(file_path, parsed_content):
     return result
 
 
+def extract_person_education(file_path, parsed_content):
+    person_id, parent_folder, batch_folder = get_person_id_infos(file_path)
+
+    education_list = parsed_content['education']
+
+    result = []
+
+    for idx, education_item in enumerate(education_list):
+        date_start = _extract_keys_from_dict(education_item, ['period', 'date_start'])
+        date_end = _extract_keys_from_dict(education_item, ['period', 'date_end'])
+
+        result.append({
+            'person_id': person_id,
+            'education_id': idx,
+            'edu_org_name': education_item['org_name'],
+            'degree': education_item['degree'],
+            'major': education_item['major'],
+            'date_start': date_start,
+            'date_end': date_end,
+        })
+
+    return result
+
+
 def run_parsed_to_db(batch_dir,
                      db_conn,
                      sub_dir_list=None,
-                     root_dir=PARSED_CONTENT_ROOT_DIR):
+                     root_dir=PARSED_CONTENT_ROOT_DIR,
+                     run_education=False):
+    """Save parsed results to DB
+
+        Currently run_education flag is a hack since all other attributes were already
+        saved to DB.
+
+        TODO (SJ): make flag for each attribute
+    """
+
     tic = time.time()
 
     if sub_dir_list is None:
@@ -151,35 +184,47 @@ def run_parsed_to_db(batch_dir,
         person_summary_contents = []
         person_specialty_contents = []
         person_experience_contents = []
+        person_education_contents = []
 
         for fpath in parsed_paths:
             parsed_content = _read_json(fpath)
 
-            person_meta_contents.append(extract_person_meta(fpath, parsed_content))
-            person_summary_contents.append(extract_person_summary(fpath, parsed_content))
-            person_specialty_contents.append(extract_person_specialty(fpath, parsed_content))
-            person_experience_contents.extend(extract_person_experience(fpath, parsed_content))
+            if not run_education:
+                person_meta_contents.append(extract_person_meta(fpath, parsed_content))
+                person_summary_contents.append(extract_person_summary(fpath, parsed_content))
+                person_specialty_contents.append(extract_person_specialty(fpath, parsed_content))
+                person_experience_contents.extend(extract_person_experience(fpath, parsed_content))
+            else:
+                person_education_contents.extend(extract_person_education(fpath, parsed_content))
 
-        person_meta_contents = pd.DataFrame(person_meta_contents)
-        person_summary_contents = pd.DataFrame(person_summary_contents)
-        person_specialty_contents = pd.DataFrame(person_specialty_contents)
-        person_experience_contents = pd.DataFrame(person_experience_contents)
+        if not run_education:
+            person_meta_contents = pd.DataFrame(person_meta_contents)
+            person_summary_contents = pd.DataFrame(person_summary_contents)
+            person_specialty_contents = pd.DataFrame(person_specialty_contents)
+            person_experience_contents = pd.DataFrame(person_experience_contents)
+        else:
+            person_education_contents = pd.DataFrame(person_education_contents)
 
-        write_to_db(person_meta_contents,
-                    db_conn,
-                    PERSON_META_TABLE, schema='linkedin', if_exists='append')
+        if not run_education:
+            write_to_db(person_meta_contents,
+                        db_conn,
+                        PERSON_META_TABLE, schema='linkedin', if_exists='append')
 
-        write_to_db(person_experience_contents,
-                    db_conn,
-                    PERSON_EXPERIENCE_TABLE, schema='linkedin', if_exists='append')
+            write_to_db(person_experience_contents,
+                        db_conn,
+                        PERSON_EXPERIENCE_TABLE, schema='linkedin', if_exists='append')
 
-        write_to_db(person_summary_contents,
-                    db_conn,
-                    PERSON_SUMMARY_TABLE, schema='linkedin', if_exists='append')
+            write_to_db(person_summary_contents,
+                        db_conn,
+                        PERSON_SUMMARY_TABLE, schema='linkedin', if_exists='append')
 
-        write_to_db(person_specialty_contents,
-                    db_conn,
-                    PERSON_SPECIALTY_TABLE, schema='linkedin', if_exists='append')
+            write_to_db(person_specialty_contents,
+                        db_conn,
+                        PERSON_SPECIALTY_TABLE, schema='linkedin', if_exists='append')
+        else:
+            write_to_db(person_education_contents,
+                        db_conn,
+                        PERSON_EDUCATION_TABLE, schema='linkedin', if_exists='append')
 
     toc = time.time()
     total_time = (toc - tic) / 60
