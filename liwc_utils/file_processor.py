@@ -69,7 +69,7 @@ def process_liwc_distances(source_dir, dest_dir):
     distance_name_map = {
         'cosine': [Cosine, [True, False]],
         'euclidean': [Euclidean, [True, False]],
-        'mahalonobis': [Mahalanobis, [True]],   # mahalonobis is already standardized
+        'mahalonobis': [Mahalanobis, [True, False]],   # mahalonobis is already standardized
         'js_divergence': [JSDivergence, [True, False]],
     }
 

@@ -10,17 +10,32 @@ class DistanceMetric(ABC):
     def __init__(self, X, y, standardize=False):
         super().__init__()
 
+        self.X, self.y = self.remove_degenerate_dim(X, y)
+
         if standardize:
-            self.X, self.y = self.standardize(X, y)
-        else:
-            self.X = X
-            self.y = y
+            self.X, self.y = self.standardize(self.X, self.y)
 
         self.n = self.X.shape[0]
 
     @abstractmethod
     def calc_distance(self):
         pass
+
+    @staticmethod
+    def remove_degenerate_dim(X, y, tol=1e-5, verbose=False):
+        """Remove dimension that has no variation"""
+        X_max = X.max(axis=0)
+        X_min = X.min(axis=0)
+        variation = X_max - X_min
+        degenerate_mask = variation < tol
+        new_X = X[:, ~degenerate_mask]
+        new_y = y[~degenerate_mask]
+
+        n_degenerate = degenerate_mask.sum()
+        if verbose and n_degenerate != 0:
+            print('dropping {} dimensions as they are degenerate'.format(n_degenerate))
+
+        return new_X, new_y
 
     @staticmethod
     def standardize(X, y):
