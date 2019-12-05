@@ -1,0 +1,4 @@
+- Is y the simple average? It seems a bit / quite off from my avg calc (maybe due to digits)
+
+- Walmart has some corruption in x, y vector (duplicate rows)
+--> For now, lets create a separate file without Walmart
