@@ -179,3 +179,17 @@ def query_person_ids_in_organization(conn, org_profile_link, person_ids):
 
     df = make_query(q, conn)
     return df
+
+
+def query_org_detail(conn, org_profile_link):
+    """Query org detail info for matching org. Also get the counts of distinct values"""
+
+    q = """
+        SELECT org_profile_link, org_detail, COUNT(*) AS org_detail_count
+        FROM linkedin.person_experience
+        WHERE org_profile_link = '{org_profile_link}'
+        GROUP BY org_profile_link, org_detail
+    """.format(org_profile_link=org_profile_link)
+
+    df = make_query(q, conn)
+    return df
