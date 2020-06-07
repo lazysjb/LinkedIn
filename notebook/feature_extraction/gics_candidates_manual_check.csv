@@ -1,0 +1,109 @@
+industry,count,industry_short_name,industry_short_name_lower,exact_match,max_fuzz_ratio_score,fuzz_ratio_candidates,max_fuzz_partial_ratio_score,fuzz_partial_ratio_candidates,manual_match
+Higher Education industry,212,Higher Education,higher education,False,53,['education services'],61,['broadcasting'],education services
+Retail industry,94,Retail,retail,False,80,['retailing'],100,"['retailing', 'food & staples retailing', 'internet & direct marketing retail', 'multiline retail', 'specialty retail', 'catalog retail - discontinued effective close of aug 31, 2016', 'apparel retail', 'computer & electronics retail', 'home improvement retail', 'automotive retail', 'homefurnishing retail', 'drug retail', 'food retail', 'retail reits - discontinued effective close of aug 31, 2016', 'retail reits']",retailing
+Financial Services industry,84,Financial Services,financial services,False,75,['diversified financial services'],100,"['diversified financial services', 'other diversified financial services']",diversified financial services
+Information Technology and Services industry,79,Information Technology and Services,information technology and services,False,77,['information technology'],100,['information technology'],information technology
+Hospital & Health Care industry,64,Hospital & Health Care,hospital & health care,False,67,['health care'],100,['health care'],health care
+Telecommunications industry,44,Telecommunications,telecommunications,False,82,['telecommunication services'],94,"['telecommunication services', 'diversified telecommunication services', 'wireless telecommunication services', 'integrated telecommunication services']",telecommunication services
+Insurance industry,37,Insurance,insurance,True,100,['insurance'],100,"['insurance', 'insurance brokers', 'life & health insurance', 'multi-line insurance', 'property & casualty insurance', 'reinsurance']",insurance
+Pharmaceuticals industry,33,Pharmaceuticals,pharmaceuticals,True,100,['pharmaceuticals'],100,"['pharmaceuticals, biotechnology & life sciences', 'pharmaceuticals']",pharmaceuticals
+Banking industry,29,Banking,banking,False,67,['banks'],100,['investment banking & brokerage'],investment banking & brokerage
+Computer Software industry,29,Computer Software,computer software,False,67,['systems software'],100,['software'],software
+Government Administration industry,28,Government Administration,government administration,False,51,['consumer discretionary'],67,['transportation'],government agency
+Marketing and Advertising industry,26,Marketing and Advertising,marketing and advertising,False,61,['advertising'],100,['advertising'],advertising
+Consumer Goods industry,26,Consumer Goods,consumer goods,False,67,['consumer staples'],79,['consumer discretionary'],consumer staples
+Restaurants industry,23,Restaurants,restaurants,True,100,['restaurants'],100,"['hotels, restaurants & leisure', 'restaurants']",restaurants
+Defense & Space industry,22,Defense & Space,defense & space,False,50,['diversified consumer services'],64,['aerospace & defense'],aerospace & defense
+Staffing and Recruiting industry,22,Staffing and Recruiting,staffing and recruiting,False,49,['oil & gas refining & marketing'],62,['trucking'],human resource & employment services
+Oil & Energy industry,20,Oil & Energy,oil & energy,False,67,['energy'],100,['energy'],energy
+Management Consulting industry,20,Management Consulting,management consulting,False,57,['asset management & custody banks'],67,['marine'],research & consulting services
+Automotive industry,19,Automotive,automotive,False,76,['automobiles'],100,['automotive retail'],automotive retail
+Real Estate industry,18,Real Estate,real estate,True,100,['real estate'],100,"['real estate', 'real estate - discontinued effective close of aug 31, 2016', 'mortgage real estate investment \ntrusts (reits)', 'real estate investment trusts (reits) - discontinued effective close of aug 31, 2016', 'real estate management & development - discontinued effective close of aug 31, 2016', 'equity real estate \ninvestment trusts \n(reits)', 'real estate management & development', 'diversified real estate activities - discontinued effective close of aug 31, 2016', 'real estate operating companies - discontinued effective close of aug 31, 2016', 'real estate development - discontinued effective close of aug 31, 2016', 'real estate services - discontinued effective close of aug 31, 2016', 'diversified real estate activities ', 'real estate operating companies', 'real estate development ', 'real estate services ']",real estate
+Education Management industry,18,Education Management,education management,False,63,['education services'],70,"['real estate management & development - discontinued effective close of aug 31, 2016', 'real estate management & development']",education services
+Broadcast Media industry,17,Broadcast Media,broadcast media,False,74,['broadcasting'],100,['media'],media
+Entertainment industry,16,Entertainment,entertainment,False,74,['movies & entertainment'],100,"['movies & entertainment', 'home entertainment software']",movies & entertainment
+Electrical/Electronic Manufacturing industry,15,Electrical/Electronic Manufacturing,electrical/electronic manufacturing,False,71,['electronic manufacturing services'],84,['electronic manufacturing services'],electronic manufacturing services
+Nonprofit Organization Management industry,14,Nonprofit Organization Management,nonprofit organization management,False,49,['communications equipment'],67,['marine'],nonprofit
+"Health, Wellness and Fitness industry",14,"Health, Wellness and Fitness","health, wellness and fitness",False,50,['metal & glass containers'],73,['health care'],health care
+Research industry,14,Research,research,False,53,['restaurants'],100,['research & consulting services'],research & consulting services
+Utilities industry,13,Utilities,utilities,True,100,['utilities'],100,"['utilities', 'electric utilities', 'gas utilities', 'multi-utilities', 'water utilities']",utilities
+Internet industry,13,Internet,internet,False,53,"['it services', 'movies & entertainment']",100,"['internet & direct marketing retail', 'internet software & services']",internet software & services
+Semiconductors industry,13,Semiconductors,semiconductors,True,100,['semiconductors'],100,"['semiconductors & semiconductor equipment', 'semiconductors']",semiconductors
+Food & Beverages industry,13,Food & Beverages,food & beverages,False,72,['beverages'],100,['beverages'],beverages
+Aviation & Aerospace industry,13,Aviation & Aerospace,aviation & aerospace,False,53,['education services'],64,['aerospace & defense'],aerospace & defense
+Medical Devices industry,13,Medical Devices,medical devices,False,67,['education services'],80,['media'],health care equipment
+Chemicals industry,12,Chemicals,chemicals,True,100,['chemicals'],100,"['chemicals', 'commodity chemicals', 'diversified chemicals', 'fertilizers & agricultural chemicals', 'specialty chemicals']",chemicals
+Construction industry,11,Construction,construction,False,71,['construction materials'],100,"['construction materials', 'construction & engineering', 'construction machinery & heavy trucks']",construction & engineering
+Biotechnology industry,11,Biotechnology,biotechnology,True,100,['biotechnology'],100,"['pharmaceuticals, biotechnology & life sciences', 'biotechnology']",biotechnology
+Hospitality industry,11,Hospitality,hospitality,False,52,['specialty stores'],64,"['specialty retail', 'specialty chemicals', 'specialty stores']","hotels, restaurants & leisure"
+Airlines/Aviation industry,9,Airlines/Aviation,airlines/aviation,False,64,['airlines'],100,['airlines'],airlines
+Publishing industry,9,Publishing,publishing,True,100,['publishing'],100,['publishing'],publishing
+Civil Engineering industry,9,Civil Engineering,civil engineering,False,65,['construction & engineering'],76,['construction & engineering'],construction & engineering
+Mechanical or Industrial Engineering industry,8,Mechanical or Industrial Engineering,mechanical or industrial engineering,False,58,['construction & engineering'],91,['industrials'],construction & engineering
+Military industry,8,Military,military,False,50,['multiline retail'],53,['renewable electricity '],government agency
+Accounting industry,8,Accounting,accounting,False,55,['broadcasting'],70,"['research & consulting services', 'it consulting & other services']",specialized consumer services
+Apparel & Fashion industry,7,Apparel & Fashion,apparel & fashion,False,65,['apparel retail'],65,"['apparel, accessories & luxury goods']",apparel retail
+Computer Hardware industry,7,Computer Hardware,computer hardware,False,52,['computer & electronics retail'],65,"['technology hardware & equipment', 'technology hardware, storage & peripherals']",technology hardware & equipment
+"Leisure, Travel & Tourism industry",7,"Leisure, Travel & Tourism","leisure, travel & tourism",False,51,['leisure facilities'],56,"['insurance', 'leisure products', 'technology hardware, storage & peripherals', 'leisure facilities']","hotels, restaurants & leisure"
+Human Resources industry,6,Human Resources,human resources,False,59,['human resource & employment services'],93,['human resource & employment services'],human resource & employment services
+Printing industry,6,Printing,printing,False,59,"['retailing', 'commercial printing']",100,['commercial printing'],commercial printing
+Outsourcing/Offshoring industry,6,Outsourcing/Offshoring,outsourcing/offshoring,False,42,['construction & engineering'],62,['trucking'],data processing & outsourced services
+Transportation/Trucking/Railroad industry,6,Transportation/Trucking/Railroad,transportation/trucking/railroad,False,62,['transportation infrastructure'],100,"['transportation', 'trucking']",transportation
+Consumer Electronics industry,6,Consumer Electronics,consumer electronics,True,100,['consumer electronics'],100,['consumer electronics'],consumer electronics
+Commercial Real Estate industry,5,Commercial Real Estate,commercial real estate,False,67,['real estate'],100,['real estate'],real estate
+Food Production industry,5,Food Production,food production,False,86,['food products'],92,['food products'],food products
+Cosmetics industry,5,Cosmetics,cosmetics,False,62,"['consumer services', 'consumer electronics']",67,"['pharmaceuticals, biotechnology & life sciences', 'air freight & logistics', 'pharmaceuticals', 'precious metals & minerals']",personal products
+Business Supplies and Equipment industry,5,Business Supplies and Equipment,business supplies and equipment,False,51,['semiconductor equipment '],64,['auto parts & equipment'],office services & supplies
+Newspapers industry,5,Newspapers,newspapers,False,59,['brewers'],67,['copper'],publishing
+Public Relations and Communications industry,4,Public Relations and Communications,public relations and communications,False,57,['wireless telecommunication services'],74,['communications equipment'],other
+Supermarkets industry,4,Supermarkets,supermarkets,False,59,['capital markets'],83,['hypermarkets & super centers'],other
+Logistics and Supply Chain industry,4,Logistics and Supply Chain,logistics and supply chain,False,48,['health care supplies'],60,['banks'],air freight & logistics
+Computer Networking industry,4,Computer Networking,computer networking,False,58,['commercial printing'],75,['trucking'],other
+Information Services industry,4,Information Services,information services,False,74,['education services'],83,['telecommunication services'],other
+International Affairs industry,3,International Affairs,international affairs,False,59,['integrated oil & gas'],67,['airlines'],other
+Machinery industry,3,Machinery,machinery,True,100,['machinery'],100,"['machinery', 'construction machinery & heavy trucks', 'agricultural & farm machinery', 'industrial machinery']",machinery
+Design industry,3,Design,design,False,59,['advertising'],67,"['commercial  & professional services', 'professional services', 'data processing & outsourced services', 'residential reits']",specialized consumer services
+Industrial Automation industry,3,Industrial Automation,industrial automation,False,73,['industrial machinery'],91,['industrials'],industrials
+Wholesale industry,3,Wholesale,wholesale,False,50,"['health care', 'real estate']",60,['silver'],other
+Security and Investigations industry,3,Security and Investigations,security and investigations,False,54,['security & alarm services'],56,"['utilities', 'specialty retail']",security & alarm services
+Paper & Forest Products industry,3,Paper & Forest Products,paper & forest products,True,100,['paper & forest products'],100,"['paper & forest products', 'forest products']",paper & forest products
+Investment Banking industry,3,Investment Banking,investment banking,False,75,['investment banking & brokerage'],100,['investment banking & brokerage'],investment banking & brokerage
+Package/Freight Delivery industry,3,Package/Freight Delivery,package/freight delivery,False,47,['air freight & logistics'],67,['silver'],air freight & logistics
+Online Media industry,2,Online Media,online media,False,59,['media'],100,['media'],media
+Computer Games industry,2,Computer Games,computer games,False,60,['consumer staples'],71,['computer & electronics retail'],computer & electronics retail
+Facilities Services industry,2,Facilities Services,facilities services,False,73,['it services'],100,['environmental & facilities services'],other
+Environmental Services industry,2,Environmental Services,environmental services,False,77,['environmental & facilities services'],82,['it services'],environmental & facilities services
+Renewables & Environment industry,2,Renewables & Environment,renewables & environment,False,58,['real estate development '],62,['movies & entertainment'],other
+Packaging and Containers industry,2,Packaging and Containers,packaging and containers,False,54,['metal & glass containers'],67,['marine'],other
+Market Research industry,2,Market Research,market research,False,52,['retail reits'],67,"['marine', 'internet & direct marketing retail']",other
+Music industry,2,Music,music,False,43,['chemicals'],80,"['telecommunication services', 'communications equipment', 'diversified telecommunication services', 'wireless telecommunication services', 'integrated telecommunication services']",other
+Media Production industry,2,Media Production,media production,False,62,"['leisure products', 'food products']",100,['media'],media
+Capital Markets industry,2,Capital Markets,capital markets,True,100,['capital markets'],100,"['capital markets', 'diversified capital markets']",capital markets
+Gambling & Casinos industry,1,Gambling & Casinos,gambling & casinos,False,48,['metal & glass containers'],61,['casinos & gaming'],casinos & gaming
+International Trade and Development industry,1,International Trade and Development,international trade and development,False,64,['real estate development '],71,['real estate development '],other
+E-Learning industry,1,E-Learning,e-learning,False,53,['retailing'],67,['marine'],education services
+Animation industry,1,Animation,animation,False,61,['transportation'],78,"['telecommunication services', 'communications equipment', 'diversified telecommunication services', 'wireless telecommunication services', 'integrated telecommunication services']",other
+Luxury Goods & Jewelry industry,1,Luxury Goods & Jewelry,luxury goods & jewelry,False,44,"['textiles, apparel & luxury goods']",75,['gold'],"textiles, apparel & luxury goods"
+Sporting Goods industry,1,Sporting Goods,sporting goods,False,59,['capital goods'],75,['gold'],other
+Museums and Institutions industry,1,Museums and Institutions,museums and institutions,False,50,"['distributors', 'health care distributors']",67,['distributors'],other
+Furniture industry,1,Furniture,furniture,False,47,"['software', 'homefurnishing retail']",62,['transportation infrastructure'],homefurnishing retail
+Religious Institutions industry,1,Religious Institutions,religious institutions,False,47,['distributors'],67,['distributors'],other
+Tobacco industry,1,Tobacco,tobacco,True,100,['tobacco'],100,"['food, beverage & tobacco', 'tobacco']",tobacco
+Computer & Network Security industry,1,Computer & Network Security,computer & network security,False,54,"['computer & electronics retail', 'hotel & resort reits ']",52,"['computer & electronics retail', 'renewable electricity ', 'hotel & resort reits ']",other
+Arts and Crafts industry,1,Arts and Crafts,arts and crafts,False,44,['highways & railtracks'],55,['road & rail'],other
+Building Materials industry,1,Building Materials,building materials,False,67,['materials'],100,['materials'],materials
+Photography industry,1,Photography,photography,False,42,['biotechnology'],56,"['information technology', 'health care technology', 'biotechnology']",other
+Wine and Spirits industry,1,Wine and Spirits,wine and spirits,False,52,['industrials'],60,['banks'],other
+Mining & Metals industry,1,Mining & Metals,mining & metals,False,56,['homefurnishing retail'],73,['oil & gas refining & marketing'],other
+Government Relations industry,1,Government Relations,government relations,False,54,['department stores'],65,['home improvement retail'],other
+Law Practice industry,1,Law Practice,law practice,False,52,['pharmaceuticals'],58,"['pharmaceuticals, biotechnology & life sciences', 'pharmaceuticals', 'security & alarm services', 'real estate operating companies - discontinued effective close of aug 31, 2016', 'real estate operating companies']",other
+Legislative Office industry,1,Legislative Office,legislative office,False,53,['alternative carriers'],63,['office reits '],other
+Professional Training & Coaching industry,1,Professional Training & Coaching,professional training & coaching,False,60,['professional services'],71,['professional services'],other
+Consumer Services industry,1,Consumer Services,consumer services,True,100,['consumer services'],100,"['consumer services', 'diversified consumer services', 'specialized consumer services']",consumer services
+Architecture & Planning industry,1,Architecture & Planning,architecture & planning,False,46,['casinos & gaming'],56,"['containers & packaging', 'machinery', 'publishing']",other
+Political Organization industry,1,Political Organization,political organization,False,49,['commercial printing'],64,['transportation'],other
+Graphic Design industry,1,Graphic Design,graphic design,False,46,['retail reits'],56,['advertising'],other
+Law Enforcement industry,1,Law Enforcement,law enforcement,False,49,['heavy electrical equipment'],53,"['real estate management & development - discontinued effective close of aug 31, 2016', 'real estate management & development', 'human resource & employment services', 'movies & entertainment', 'home entertainment software']",other
+Wireless industry,1,Wireless,wireless,False,62,['airlines'],100,['wireless telecommunication services'],wireless telecommunication services
+"Glass, Ceramics & Concrete industry",1,"Glass, Ceramics & Concrete","glass, ceramics & concrete",False,49,"['oil, gas & consumable fuels']",67,['chemicals'],other
+Primary/Secondary Education industry,1,Primary/Secondary Education,primary/secondary education,False,49,['semiconductors'],67,['education services'],education services
